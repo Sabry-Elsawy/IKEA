@@ -1,3 +1,8 @@
+using LinkDev.IKEA.DAL;
+using LinkDev.IKEA.DAL.Persistence.Data;
+using LinkDev.IKEA.PL.Extensions;
+using Microsoft.EntityFrameworkCore;
+
 namespace LinkDev.IKEA.PL
 {
     public class Program
@@ -9,7 +14,11 @@ namespace LinkDev.IKEA.PL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddPersistenceServices(builder.Configuration);
+
             var app = builder.Build();
+
+            app.UseDbInitializer();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

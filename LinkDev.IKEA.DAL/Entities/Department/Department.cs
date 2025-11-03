@@ -1,4 +1,5 @@
-﻿using LinkDev.IKEA.DAL.Common.Entities;
+﻿using LinkDev.IKEA.DAL.common;
+using LinkDev.IKEA.DAL.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace LinkDev.IKEA.DAL.Entities.Department
 
         public string Code { get; set; }
         public string? Description { get; set; }
- 
+
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly CreationDate { get; set; }
     }
 }
