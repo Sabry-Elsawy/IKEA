@@ -1,6 +1,7 @@
 ﻿using LinkDev.IKEA.DAL.Constract;
 using LinkDev.IKEA.DAL.Persistence.Data;
 using LinkDev.IKEA.DAL.Persistence.Data.DbInitializer;
+using LinkDev.IKEA.DAL.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,8 @@ namespace LinkDev.IKEA.DAL
          optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
          );
             services.AddScoped<IDbIntializer, DbIntializer>();
-            return services;
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+			return services;
         }
     }
 }

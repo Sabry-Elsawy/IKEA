@@ -1,3 +1,4 @@
+using LinkDev.IKEA.BLL;
 using LinkDev.IKEA.DAL;
 using LinkDev.IKEA.DAL.Persistence.Data;
 using LinkDev.IKEA.PL.Extensions;
@@ -15,8 +16,9 @@ namespace LinkDev.IKEA.PL
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddPersistenceServices(builder.Configuration);
+			builder.Services.AddApplicationServices(builder.Configuration);
 
-            var app = builder.Build();
+			var app = builder.Build();
 
             app.UseDbInitializer();
 
