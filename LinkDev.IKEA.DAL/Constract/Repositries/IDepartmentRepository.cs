@@ -12,7 +12,7 @@ namespace LinkDev.IKEA.DAL.Constract.Repositries
 
         IEnumerable<Department> GetAll(bool withTracking = false);
 
-        Department? GetById(int id );
+        Department GetById(int id );
 
         void Add(Department entity);
 

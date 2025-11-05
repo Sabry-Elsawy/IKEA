@@ -10,9 +10,9 @@ namespace LinkDev.IKEA.DAL.Constract
     public interface IUnitOfWork
     {
 
-        public IDepartmentRepository? DepartmentRepository { get; set; }
+        public IDepartmentRepository DepartmentRepository { get; set; }
 
-        void Complete();
+        int Complete();
 
         void Dispose();
     }

@@ -29,7 +29,7 @@ namespace LinkDev.IKEA.DAL.Persistence.Repositories
             return _DbContext.departments;
         }
 
-        public Department? GetById(int id)
+        public Department GetById(int id)
         {
              var department = _DbContext.departments.Find(id);
             return department;

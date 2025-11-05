@@ -22,9 +22,9 @@ namespace LinkDev.IKEA.DAL.Persistence.UnitOfWork
             _DbContext = dbContext;
         }
 
-        public void Complete()
+        public int Complete()
         {
-            _DbContext.SaveChanges();
+          return  _DbContext.SaveChanges();
         }
 
         public void Dispose()
