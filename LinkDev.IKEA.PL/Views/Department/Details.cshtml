@@ -1,0 +1,74 @@
+﻿@model DepartmentDetailsViewModel
+
+@{
+	ViewData["Title"] = "Department Details";
+}
+
+
+<div class="container py-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                Department Details
+            </h4>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Id" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="Id" class="form-control" disabled />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Code" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="Code" class="form-control" disabled />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Name" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="Name" class="form-control" disabled />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Description" class="form-label fw-bold text-secondary"></label>
+                    <textarea asp-for="Description" class="form-control" disabled></textarea>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="CreationDate" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="CreationDate" class="form-control" disabled />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CreatedBy" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="CreatedBy" class="form-control" disabled />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="CreatedOn" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="CreatedOn" class="form-control" disabled />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="LastModifiedBy" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="LastModifiedBy" class="form-control" disabled />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="LastModifiedOn" class="form-label fw-bold text-secondary"></label>
+                    <input asp-for="LastModifiedOn" class="form-control" disabled />
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary me-2">
+                     Back
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                      Edit Department
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

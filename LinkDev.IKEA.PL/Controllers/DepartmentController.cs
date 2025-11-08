@@ -24,5 +24,33 @@ namespace LinkDev.IKEA.PL.Controllers
             });
             return View(departmentViewModels);
         }
-    }
+
+		[HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return BadRequest();
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null)
+            {
+                return NotFound();
+            }
+            var DepartmentDetailsViewModel = new DepartmentDetailsViewModel()
+			{
+				Id = department.ID,
+				Name = department.Name,
+				Code = department.Code,
+				Description = department.Description,
+				CreationDate = department.CreationDate,
+				CreatedBy = department.CreatedBy,
+				CreatedOn = department.CreatedOn,
+				LastModifiedBy = department.LastModifiedBy,
+				LastModifiedOn = department.LastModifiedOn
+			};
+
+			return View(DepartmentDetailsViewModel);
+        }
+	}
 }
