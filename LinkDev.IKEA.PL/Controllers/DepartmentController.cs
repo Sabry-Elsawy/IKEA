@@ -1,4 +1,5 @@
-﻿using LinkDev.IKEA.BLL.Services.Departments;
+﻿using LinkDev.IKEA.BLL.Models;
+using LinkDev.IKEA.BLL.Services.Departments;
 using LinkDev.IKEA.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +8,11 @@ namespace LinkDev.IKEA.PL.Controllers
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _departmentService;
-        public DepartmentController(IDepartmentService departmentService)
+        private readonly ILogger<DepartmentController> _logger;
+        public DepartmentController(IDepartmentService departmentService, ILogger<DepartmentController> logger)
         {
             _departmentService = departmentService;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Index()
@@ -52,5 +55,38 @@ namespace LinkDev.IKEA.PL.Controllers
 
 			return View(DepartmentDetailsViewModel);
         }
-	}
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(CreateDepartmentViewModel model)
+        {
+            var message = "Department created successfully.";
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var departmentToCreate = new CreateDepartmentDTO(model.Name, model.Code, model.Description, model.CreationDate) { };
+                var CreatedDepartment = _departmentService.CreateDepartment(departmentToCreate) > 0;
+               
+                if (!CreatedDepartment)
+                {
+                    message = "Failed to create Department.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message,ex.StackTrace!.ToString());
+                message = "An error occurred while creating the Department.";
+            }
+            TempData["Message"] =  message;
+
+            return RedirectToAction(nameof(Index));
+        }
+}
 }
