@@ -28,7 +28,7 @@ namespace LinkDev.IKEA.PL.Controllers
             return View(departmentViewModels);
         }
 
-		[HttpGet]
+        [HttpGet]
         public IActionResult Details(int? id)
         {
             if (!id.HasValue)
@@ -41,19 +41,19 @@ namespace LinkDev.IKEA.PL.Controllers
                 return NotFound();
             }
             var DepartmentDetailsViewModel = new DepartmentDetailsViewModel()
-			{
-				Id = department.ID,
-				Name = department.Name,
-				Code = department.Code,
-				Description = department.Description,
-				CreationDate = department.CreationDate,
-				CreatedBy = department.CreatedBy,
-				CreatedOn = department.CreatedOn,
-				LastModifiedBy = department.LastModifiedBy,
-				LastModifiedOn = department.LastModifiedOn
-			};
+            {
+                Id = department.ID,
+                Name = department.Name,
+                Code = department.Code,
+                Description = department.Description,
+                CreationDate = department.CreationDate,
+                CreatedBy = department.CreatedBy,
+                CreatedOn = department.CreatedOn,
+                LastModifiedBy = department.LastModifiedBy,
+                LastModifiedOn = department.LastModifiedOn
+            };
 
-			return View(DepartmentDetailsViewModel);
+            return View(DepartmentDetailsViewModel);
         }
 
         [HttpGet]
@@ -65,15 +65,16 @@ namespace LinkDev.IKEA.PL.Controllers
         public IActionResult Create(CreateDepartmentViewModel model)
         {
             var message = "Department created successfully.";
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
+               
                 var departmentToCreate = new CreateDepartmentDTO(model.Name, model.Code, model.Description, model.CreationDate) { };
                 var CreatedDepartment = _departmentService.CreateDepartment(departmentToCreate) > 0;
-               
+
                 if (!CreatedDepartment)
                 {
                     message = "Failed to create Department.";
@@ -81,12 +82,68 @@ namespace LinkDev.IKEA.PL.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message,ex.StackTrace!.ToString());
+                _logger.LogError(ex.Message, ex.StackTrace!.ToString());
                 message = "An error occurred while creating the Department.";
             }
-            TempData["Message"] =  message;
+            TempData["Message"] = message;
 
             return RedirectToAction(nameof(Index));
         }
-}
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return BadRequest();
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null)
+            {
+                return NotFound();
+            }
+            var updateDepartmentViewModel = new UpdateDepartmentViewModel()
+            {
+                Id = department.ID,
+                Name = department.Name,
+                Code = department.Code,
+                Description = department.Description,
+                CreationDate = department.CreationDate
+            };
+            TempData["Id"] = id;
+            return View(updateDepartmentViewModel);
+        }
+        [HttpPost]
+        public IActionResult Edit([FromRoute] int id, UpdateDepartmentViewModel model)
+        {
+            var message = "Department updated successfully.";
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if ((int?)TempData["Id"] != id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+           
+                var departmentToUpdate = new UpdateDepartmentDTO(id, model.Name, model.Code,  model.CreationDate, model.Description) { };
+                var updatedDepartment = _departmentService.UpdateDepartment(departmentToUpdate) > 0;
+
+                if (!updatedDepartment)
+                {
+                    message = "Failed to update Department.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                message = "An error occurred while updating the Department.";
+            }
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }
