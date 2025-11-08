@@ -145,5 +145,31 @@ namespace LinkDev.IKEA.PL.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-    }
+        [HttpPost]
+        public IActionResult Delete(int? id)
+        {
+            var message = "Department deleted successfully.";
+            if (!id.HasValue)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var deletedDepartment = _departmentService.DeleteDepartment(id.Value) ;
+
+                if (!deletedDepartment)
+                {
+                    message = "Failed to delete Department.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                message = "An error occurred while deleting the Department.";
+            }
+            TempData["Message"] = message;
+
+            return RedirectToAction(nameof(Index));
+        }
+        }
 }

@@ -58,9 +58,12 @@
 							</a>
 					  </td>
 					 <td>
-								<a asp-controller="Department" asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger">
-									<i class="fas fa-trash-alt"></i> Delete
-								</a>
+						<form asp-controller="Department" asp-action="Delete" asp-route-id="@department.Id" method="post" class="d-inline">
+							<button type="submit" class="btn btn-danger"  >
+								<i class="fas fa-trash-alt"></i> Delete
+							</button>
+						</form>
+
 					  </td>
 				</tr>
 			}
